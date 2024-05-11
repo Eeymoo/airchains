@@ -172,7 +172,7 @@ EOF
     junctiond tx staking create-validator $HOME/validator.json --node $junctiond_RPC_PORT \
     --from=wallet \
     --chain-id=junction \
-    --fees 2000amf
+    --fees 5000amf
 }
 
 
@@ -180,7 +180,7 @@ EOF
 function delegate_self_validator() {
 read -p "请输入质押代币数量: " math
 read -p "请输入钱包名称: " wallet_name
-junctiond tx staking delegate $(junctiond keys show $wallet_name --bech val -a)  ${math}amf --from $wallet_name --chain-id=junction --gas=300000 --node $junctiond_RPC_PORT  -y
+junctiond tx staking delegate $(junctiond keys show $wallet_name --bech val -a)  ${math}amf --from $wallet_name --chain-id=junction --fees 5000amf --node $junctiond_RPC_PORT  -y
 
 }
 
