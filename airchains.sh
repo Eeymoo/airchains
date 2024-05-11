@@ -124,7 +124,7 @@ function uninstall_node() {
         [yY][eE][sS]|[yY]) 
             echo "开始卸载节点程序..."
             pm2 stop junctiond && pm2 delete junctiond
-            rm -rf $HOME/.junctiond && rm -rf $HOME/junction $(which junctiond) && rm -rf #HOME/.junction
+            rm -rf $HOME/.junctiond && rm -rf $HOME/junction $(which junctiond) && rm -rf $HOME/.junction
             echo "节点程序卸载完成。"
             ;;
         *)
