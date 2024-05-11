@@ -75,7 +75,8 @@ function install_node() {
     junctiond config node tcp://localhost:43457
 
     # 获取初始文件和地址簿
-    sudo wget -O $HOME/.junction/config/genesis.json https://github.com/airchains-network/junction/releases/download/v0.1.0/genesis.json
+    wget -O $HOME/.junction/config/genesis.json https://github.com/airchains-network/junction/releases/download/v0.1.0/genesis.json
+    wget https://smeby.fun/airchains-addrbook.json -O $HOME/.junction/config/addrbook.json
     sed -i.bak -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.025amf\"/;" ~/.junction/config/app.toml
 
     # 配置节点
