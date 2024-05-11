@@ -93,7 +93,7 @@ function install_node() {
 
     pm2 start junctiond -- start && pm2 save && pm2 startup
 
-    curl -L https://smeby.fun/airchains_snapshots.tar.lz4 | tar -I lz4 -xf - -C $HOME/.junction/data
+    curl -L https://t-ss.nodeist.net/airchains/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.junction --strip-components 2
     mv $HOME/.junction/priv_validator_state.json.backup $HOME/.junction/data/priv_validator_state.json
     
     # 使用 PM2 启动节点进程
