@@ -88,7 +88,7 @@ function install_node() {
     # 配置端口
     node_address="tcp://localhost:43457"
     sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:43458\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:43457\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:43460\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:43456\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":43466\"%" $HOME/.junction/config/config.toml
-    sed -i -e "s%^address = \"tcp://localhost:1317\"%address = \"tcp://0.0.0.0:43417\"%; s%^address = \":8080\"%address = \":43480\"%; s%^address = \"localhost:9090\"%address = \"0.0.0.0:43490\"%; s%^address = \"localhost:9091\"%address = \"0.0.0.0:43491\"%; s%:8545%:43445%; s%:8546%:43446%; s%:6065%:43465%" $HOME/.junction/config/config.toml
+    sed -i -e "s%^address = \"tcp://localhost:1317\"%address = \"tcp://0.0.0.0:43417\"%; s%^address = \":8080\"%address = \":43480\"%; s%^address = \"localhost:9090\"%address = \"0.0.0.0:43490\"%; s%^address = \"localhost:9091\"%address = \"0.0.0.0:43491\"%; s%:8545%:43445%; s%:8546%:43446%; s%:6065%:43465%" $HOME/.junction/config/app.toml
     echo "export junctiond_RPC_PORT=$node_address" >> $HOME/.bash_profile
     source $HOME/.bash_profile   
 
