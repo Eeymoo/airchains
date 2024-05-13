@@ -185,6 +185,12 @@ junctiond tx staking delegate $(junctiond keys show $wallet_name --bech val -a) 
 
 }
 
+function unjail() {
+read -p "请输入钱包名称: " wallet_name
+junctiond tx slashing unjail --from $wallet_name --fes=10000amf --node $junctiond_RPC_PORT
+
+}
+
 
 # 主菜单
 function main_menu() {
@@ -208,6 +214,7 @@ function main_menu() {
         echo "9. 设置快捷键"  
         echo "10. 创建验证者"  
         echo "11. 给自己质押" 
+        echo "12. 释放出监狱"
         read -p "请输入选项（1-11）: " OPTION
 
         case $OPTION in
@@ -222,6 +229,7 @@ function main_menu() {
         9) check_and_set_alias ;;
         10) add_validator ;;
         11) delegate_self_validator ;;
+        12) unjail ;;
         *) echo "无效选项。" ;;
         esac
         echo "按任意键返回主菜单..."
