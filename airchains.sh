@@ -187,7 +187,7 @@ junctiond tx staking delegate $(junctiond keys show $wallet_name --bech val -a) 
 
 function unjail() {
 read -p "请输入钱包名称: " wallet_name
-junctiond tx slashing unjail --from $wallet_name --fes=10000amf --node $junctiond_RPC_PORT
+junctiond tx slashing unjail --from $wallet_name --fees=10000amf --node $junctiond_RPC_PORT
 
 }
 
