@@ -151,7 +151,7 @@ function check_balances() {
 
 # 查看节点同步状态
 function check_sync_status() {
-    junctiond status 2>&1 --node $junctiond_RPC_PORT | jq .sync_info
+    junctiond status --node $junctiond_RPC_PORT | jq .sync_info
 }
 
 # 创建验证者
