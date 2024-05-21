@@ -93,9 +93,9 @@ function install_node() {
     source $HOME/.bash_profile   
 
     pm2 start junctiond -- start && pm2 save && pm2 startup
-
-    curl https://snapshots.aknodes.net/snapshots/airchains/snapshot-airchains.AKNodes.lz4 | lz4 -dc - | tar -xf - -C $HOME/.junction
-    mv $HOME/.junction/priv_validator_state.json.backup $HOME/.junction/data/priv_validator_state.json 
+    pm2 stop junctiond
+    
+    curl https://testnet-files.itrocket.net/airchains/snap_airchains.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.junction
 
     
     # 使用 PM2 启动节点进程
