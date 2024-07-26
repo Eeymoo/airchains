@@ -93,19 +93,24 @@ function install_node() {
     source $HOME/.bash_profile   
 
     pm2 start junctiond -- start && pm2 save && pm2 startup
-    pm2 stop junctiond
-    
-    curl https://testnet-files.itrocket.net/airchains/snap_airchains.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.junction
 
-    
-    # 使用 PM2 启动节点进程
-
-    pm2 restart junctiond
+    pull_snapshot
 
     echo '====================== 安装完成,请退出脚本后执行 source $HOME/.bash_profile 以加载环境变量==========================='
-    
 }
-
+function pull_snapshot() {
+    echo "正在暂停服务"
+    pm2 stop junctiond
+    echo "正在备份节点数据 priv_validator_state.json"
+    cp ~/.junction/data/priv_validator_state.json  ~/.junction/priv_validator_state.json
+    echo "正在删除数据..."
+    sudo rm -rf ~/.junction/data
+    sudo rm -rf ~/.junction/wasm
+    echo "正在拉取快照..."
+    curl -o - -L https://config-t.noders.services/airchains/data.tar.lz4 | lz4 -d | tar -x -C ~/.junction
+    echo "快照拉取完成。"
+    pm2 restart junctiond
+}
 # 查看junction 服务状态
 function check_service_status() {
     pm2 list
@@ -216,6 +221,7 @@ function main_menu() {
         echo "10. 创建验证者"  
         echo "11. 给自己质押" 
         echo "12. 释放出监狱"
+        echo "13. 拉取快照"
         read -p "请输入选项（1-11）: " OPTION
 
         case $OPTION in
@@ -231,6 +237,7 @@ function main_menu() {
         10) add_validator ;;
         11) delegate_self_validator ;;
         12) unjail ;;
+        13) pull_snapshot ;;
         *) echo "无效选项。" ;;
         esac
         echo "按任意键返回主菜单..."
