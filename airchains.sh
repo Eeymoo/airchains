@@ -99,16 +99,35 @@ function install_node() {
     echo '====================== 安装完成,请退出脚本后执行 source $HOME/.bash_profile 以加载环境变量==========================='
 }
 function pull_snapshot() {
+    echo "切换到 $HOME 目录"
+    cd $HOME
+    if ! command -v aria2c &> /dev/null
+    then
+        echo "未找到 aria2c,正在安装 aria2c"
+        sudo apt update
+        sudo apt install aria2 -y
+    fi
     echo "正在暂停服务"
     pm2 stop junctiond
     echo "正在备份节点数据 priv_validator_state.json"
     cp ~/.junction/data/priv_validator_state.json  ~/.junction/priv_validator_state.json
     echo "正在删除数据..."
     sudo rm -rf ~/.junction/data
-    sudo rm -rf ~/.junction/wasm
+    echo "正在获取快照链接..."
+    SNAP_NAME=$(curl -s https://services.staketab.org/backend/airchains-testnet/ | jq -r .snapshot_name)
+    SNAP_LINK=$(curl -s https://services.staketab.org/backend/airchains-testnet/ | jq -r .snap_link)
     echo "正在拉取快照..."
-    curl -o - -L https://config-t.noders.services/airchains/data.tar.lz4 | lz4 -d | tar -x -C ~/.junction
-    echo "快照拉取完成。"
+    aria2c -x16 $SNAP_LINK
+    echo "正在解压快照..."
+    tar -xf $SNAP_LINK -C $HOME/.junction/data/
+    echo "正在删除快照文件..."
+    rm -rf $SNAP_NAME
+    echo "正在拉取 addrbook.json"
+    ADDRBOOK_LINK=$(curl -s https://services.staketab.org/backend/airchains-testnet/ | jq -r .addrbook_link)
+    rm -rf $HOME/.junction/config/addrbook.json && aria2c -x2 $ADDRBOOK_LINK -d $HOME/.junction/config
+    echo "正在恢复节点数据 priv_validator_state.json"
+    cp ~/.junction/priv_validator_state.json  ~/.junction/data/priv_validator_state.json
+    echo "节点启动完成。"
     pm2 restart junctiond
 }
 # 查看junction 服务状态
