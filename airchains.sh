@@ -117,7 +117,7 @@ function pull_snapshot() {
     SNAP_NAME=$(curl -s https://services.staketab.org/backend/airchains-testnet/ | jq -r .snapshot_name)
     SNAP_LINK=$(curl -s https://services.staketab.org/backend/airchains-testnet/ | jq -r .snap_link)
     echo "正在拉取快照..."
-    aria2c -x16 $SNAP_LINK
+    aria2c -x 16 $SNAP_LINK
     echo "正在解压快照..."
     tar -xf $SNAP_LINK -C $HOME/.junction/data/
     echo "正在删除快照文件..."
@@ -241,7 +241,7 @@ function main_menu() {
         echo "11. 给自己质押" 
         echo "12. 释放出监狱"
         echo "13. 拉取快照"
-        read -p "请输入选项（1-11）: " OPTION
+        read -p "请输入选项（1-13）: " OPTION
 
         case $OPTION in
         1) install_node ;;
